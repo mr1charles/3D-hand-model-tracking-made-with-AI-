@@ -1,0 +1,8 @@
+{
+  "name": "browser-avatar-puppeteer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/main.js && node --check src/camera.js && node --check src/config.js && node --check src/faceTracking.js && node --check src/handTracking.js && node --check src/avatarController.js && node --check src/ui.js"
+  }
+}

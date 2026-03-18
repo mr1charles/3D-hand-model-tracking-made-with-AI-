@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Avatar Puppeteer</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="control-panel">
+        <h1>Realtime Avatar Puppeteer</h1>
+        <p class="lede">
+          Drive a browser-based 3D avatar with your face and hand landmarks using
+          MediaPipe + Three.js.
+        </p>
+
+        <section class="panel-card">
+          <h2>Camera & Tracking</h2>
+          <button id="startCameraButton" class="primary-button">Start Camera</button>
+          <div class="toggle-grid">
+            <label><input id="toggleFaceLandmarks" type="checkbox" checked /> Show face landmarks</label>
+            <label><input id="toggleHandLandmarks" type="checkbox" checked /> Show hand landmarks</label>
+            <label><input id="toggleAvatarAnimation" type="checkbox" checked /> Enable avatar animation</label>
+          </div>
+          <div class="status-grid">
+            <div><span>Status</span><strong id="cameraStatus">Idle</strong></div>
+            <div><span>FPS</span><strong id="fpsValue">0</strong></div>
+            <div><span>Gesture</span><strong id="gestureValue">Waiting</strong></div>
+            <div><span>Hands</span><strong id="handValue">0</strong></div>
+          </div>
+        </section>
+
+        <section class="panel-card">
+          <h2>Avatar Models</h2>
+          <label for="avatarModelSelect">Model style</label>
+          <select id="avatarModelSelect">
+            <option value="humanoid">Simple humanoid</option>
+            <option value="anime">Anime style</option>
+            <option value="lowpoly">Low poly character</option>
+            <option value="cartoon">Cartoon style</option>
+            <option value="memoji">Memoji creator avatar</option>
+          </select>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-header">
+            <h2>Memoji-style Creator</h2>
+            <button id="randomizeMemojiButton" class="secondary-button">Randomize</button>
+          </div>
+          <div class="form-grid">
+            <label>Face shape
+              <input id="faceShapeInput" type="range" min="0" max="1" step="0.01" value="0.5" />
+            </label>
+            <label>Skin tone
+              <input id="skinColorInput" type="color" value="#f1c27d" />
+            </label>
+            <label>Hair style
+              <select id="hairStyleInput">
+                <option value="cap">Cap cut</option>
+                <option value="swoop">Swoop</option>
+                <option value="bun">Bun</option>
+                <option value="mohawk">Mohawk</option>
+              </select>
+            </label>
+            <label>Hair color
+              <input id="hairColorInput" type="color" value="#2b1d0e" />
+            </label>
+            <label>Eye size
+              <input id="eyeSizeInput" type="range" min="0.6" max="1.5" step="0.01" value="1" />
+            </label>
+            <label>Eyebrow tilt
+              <input id="eyebrowTiltInput" type="range" min="-0.6" max="0.6" step="0.01" value="0" />
+            </label>
+            <label>Nose length
+              <input id="noseLengthInput" type="range" min="0.5" max="1.7" step="0.01" value="1" />
+            </label>
+            <label>Mouth width
+              <input id="mouthWidthInput" type="range" min="0.6" max="1.6" step="0.01" value="1" />
+            </label>
+            <label>Accessory
+              <select id="accessoryInput">
+                <option value="none">None</option>
+                <option value="glasses">Glasses</option>
+                <option value="visor">Visor</option>
+                <option value="earrings">Earrings</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel-card debug-card">
+          <h2>Tracking Debug</h2>
+          <p>
+            Live overlays show the face mesh points, hand joints, and the smoothed
+            feature values used to animate the avatar.
+          </p>
+          <ul id="debugMetrics" class="debug-metrics"></ul>
+        </section>
+      </aside>
+
+      <main class="viewport-panel">
+        <div class="stage-grid">
+          <section class="video-stack">
+            <video id="cameraFeed" autoplay playsinline muted></video>
+            <canvas id="debugCanvas"></canvas>
+          </section>
+          <section class="avatar-stage">
+            <canvas id="sceneCanvas"></canvas>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
